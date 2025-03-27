@@ -1,0 +1,26 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+mm/
+venv/
+env/
+ENV/
+
+# Configuration files with potential secrets
+config.json
+*.env
+*.toml
+
+# Logs
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
