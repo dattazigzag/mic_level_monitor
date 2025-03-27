@@ -158,4 +158,4 @@ refresh_rate = 0.1
 
 ## License
 
-MIT License
+[MIT License](LICENSE)
