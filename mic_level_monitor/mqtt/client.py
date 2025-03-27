@@ -36,6 +36,7 @@ class MQTTClient:
         self.mqtt_client.on_connect = self.on_mqtt_connect
         self.mqtt_client.on_disconnect = self.on_mqtt_disconnect
 
+
     def on_mqtt_connect(self, client, userdata, flags, reason_code, properties, *args):
         """Callback when connected to MQTT broker."""
         if reason_code == 0:
@@ -43,10 +44,21 @@ class MQTTClient:
             self.mqtt_reconnecting = False
             self.reconnect_attempts = 0
             self.error_message = ""
+            
+            # Publish online status message
+            try:
+                self.mqtt_client.publish(
+                    "microphones/status",
+                    payload=json.dumps({"status": "online"}),
+                    qos=1,
+                    retain=True
+                )
+            except Exception as e:
+                self.error_message = f"Failed to publish online status: {e}"
         else:
             self.mqtt_connected = False
             self.error_message = f"Failed to connect to MQTT broker: {reason_code}"
-
+            
         if self.error_callback:
             self.error_callback(self.error_message)
 
@@ -90,6 +102,19 @@ class MQTTClient:
 
     def disconnect(self):
         """Disconnect from the MQTT broker."""
+        # Publish online status message
+        try:
+            self.mqtt_client.publish(
+                "microphones/status",
+                payload=json.dumps({"status": "offline"}),
+                qos=1,
+                retain=True
+            )
+        except Exception as e:
+            self.error_message = f"Failed to publish offline status: {e}"
+    
+        if self.error_callback:
+            self.error_callback(self.error_message)
         self.running = False
         self.mqtt_client.loop_stop()
         if self.mqtt_client.is_connected():
