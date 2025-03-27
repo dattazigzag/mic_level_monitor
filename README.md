@@ -1,8 +1,8 @@
-# Mic Level Monitor
+# Mic Level Monitor -> MQTTlevel state sender
 
 A dual microphone MQTT monitor that detects audio activity and publishes events to MQTT topics, with a rich terminal user interface.
 
-> IMG TBD
+![IMG TBD](assets/app_tui.png)
 
 ## Features
 
